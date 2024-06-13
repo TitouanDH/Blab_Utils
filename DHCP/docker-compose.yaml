@@ -1,0 +1,9 @@
+services:
+  dhcp-server:
+    image: networkboot/dhcpd
+    container_name: dhcp-server
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - ./dhcp/dhcpd.conf:/etc/dhcp/dhcpd.conf
+    entrypoint: [ "dhcpd", "-f", "-cf", "/etc/dhcp/dhcpd.conf", "ens161" ]
