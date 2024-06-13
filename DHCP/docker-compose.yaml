@@ -2,11 +2,8 @@ services:
   dhcp-server:
     image: networkboot/dhcpd
     container_name: dhcp-server
-    privileged: true
     network_mode: "host"
     volumes:
-      - ./dhcpd.conf:/etc/dhcp/dhcpd.conf
-      - dhcp_data:/var/lib/dhcp
-    entrypoint: [ "dhcpd", "-f", "-cf", "/etc/dhcp/dhcpd.conf", "ens161" ]
-volumes:
-  dhcp_data:
+      - ./:/data
+    restart: unless-stopped
+    command: ["ens161"]
