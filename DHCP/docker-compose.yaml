@@ -2,11 +2,11 @@ services:
   dhcp-server:
     image: networkboot/dhcpd
     container_name: dhcp-server
-    init: true
-    environment:
-      - DHCPD_PROTOCOL=4  # Optional: Use DHCPv4 (default)
-      # Uncomment the line below if you need to use DHCPv6
-      # - DHCPD_PROTOCOL=6
+    privileged: true
     network_mode: "host"
     volumes:
-      - ./data:/data
+      - ./dhcpd.conf:/etc/dhcp/dhcpd.conf
+      - dhcp_data:/var/lib/dhcp
+    entrypoint: [ "dhcpd", "-f", "-cf", "/etc/dhcp/dhcpd.conf", "ens161" ]
+volumes:
+  dhcp_data:
